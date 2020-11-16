@@ -158,3 +158,12 @@ select {
     background: white;
     color: #ff6f47;
 }
+
+div button {
+    font-size: 15px;
+    padding: 12px 28px;
+    cursor: pointer;
+    border-radius: 20px;
+    color: white;
+    background: #ff6f47;
+}
