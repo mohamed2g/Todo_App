@@ -7,6 +7,10 @@ server.use(bodyParser.json());
 
 server.use(express.static('public'));
 
+server.get("/"),(req, res) => {
+    res (style);
+}
+
 
 server.set('port', (process.env.PORT || 8080));
 server.listen(server.get('port'), function() {
