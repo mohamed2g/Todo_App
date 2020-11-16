@@ -40,11 +40,24 @@ form input, form button{
     border: none;
     background: white;
 }
-div input, div {
+div input, #container {
     border: none;
     padding: 0.5rem;
     min-height: 0.5rem;
     font-size: 2rem;
+    text-align: center;
+    margin: auto;
+}
+
+div button {
+    color: white;
+    background: #ff6f47;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 12px 28px;
+    border-radius: 20px;
+    
 }
 
 
@@ -54,6 +67,7 @@ form button {
     background: #ff6f47;
     cursor: pointer;
     transition: all 0.3s ease;
+
 }
 
 form button :hover {
