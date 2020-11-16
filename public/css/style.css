@@ -54,13 +54,10 @@ div button {
     background: #ff6f47;
     font-size: 15px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     padding: 12px 28px;
-    border-radius: 20px;
     
 }
-
-
 
 form button {
     color: white;
