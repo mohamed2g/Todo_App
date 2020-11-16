@@ -37,7 +37,7 @@ form input, form button{
     border: none;
     background: white;
 }
-div input, container {
+div input, #container {
     border: none;
     padding: 0.5rem;
     min-height: 0.5rem;
