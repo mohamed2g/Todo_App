@@ -10,9 +10,10 @@ body {
     color: white;
     font-family: "Poppins", sans-serif;
     min-height: 100vh; 
+   
 }
 
-header {
+header{
     font-size: 1.5rem;
 }
 
@@ -21,6 +22,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 header, 
@@ -38,7 +40,7 @@ form input, form button{
     border: none;
     background: white;
 }
-div input, #container {
+div input, div {
     border: none;
     padding: 0.5rem;
     min-height: 0.5rem;
