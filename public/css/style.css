@@ -45,6 +45,10 @@ div input, div {
     padding: 0.5rem;
     min-height: 0.5rem;
     font-size: 2rem;
+    text-align: center;
+    margin: auto;
+      
+    
 }
 
 
