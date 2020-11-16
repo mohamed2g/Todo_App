@@ -10,9 +10,10 @@ body {
     color: white;
     font-family: "Poppins", sans-serif;
     min-height: 100vh; 
+   
 }
 
-header {
+header{
     font-size: 1.5rem;
 }
 
@@ -21,22 +22,36 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 header, 
-form {
+form, div input{
     min-height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
 }
 
-form input, form button  {
+form input, form button{
     padding: 0.5rem;
     font-size: 2rem;
     border: none;
     background: white;
 }
+div input, div {
+    border: none;
+    padding: 0.5rem;
+    min-height: 0.5rem;
+    font-size: 2rem;
+    text-align: center;
+    margin: auto;
+      
+    
+}
+
+
 
 form button {
     color: white;
