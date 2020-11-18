@@ -10,9 +10,10 @@ body {
     color: white;
     font-family: "Poppins", sans-serif;
     min-height: 100vh; 
+   
 }
 
-header {
+header{
     font-size: 1.5rem;
 }
 
@@ -21,6 +22,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 header, 
@@ -29,6 +31,7 @@ form, div input{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
 }
 
 form input, form button{
@@ -42,15 +45,26 @@ div input, #container {
     padding: 0.5rem;
     min-height: 0.5rem;
     font-size: 2rem;
+    text-align: center;
+    margin: auto;
 }
 
-
+div button {
+    color: white;
+    background: #ff6f47;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 12px 28px;
+    
+}
 
 form button {
     color: white;
     background: #ff6f47;
     cursor: pointer;
     transition: all 0.3s ease;
+
 }
 
 form button :hover {

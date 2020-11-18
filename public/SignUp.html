@@ -3,36 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9a206dcb8a.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css">
     <title>Sign Up</title>
+
+   
 </head>
 <body>
 
+<header>
     <h1>Sign Up</h1>
+</header>
+
             <p>Please fill in this form to create an account.</p>
  
      <from class = "sign_form">
         
-            
+        <div id="container">  
             <label for="name"><b>Name</b></label>
             <input type="text" placeholder="Enter Name" name="name" required>
             <br>
             <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+            <input type="email" placeholder="Enter Email" name="email" required>
             <br>
             <label for="psw"><b>Password</b></label>
-            <input type="text" placeholder="Enter Password" name="psw" required>
+            <input type="password" placeholder="Enter Password" name="psw" required>
             <br>
             <label for="name"><b>Repeat Password</b></label>
-            <input type="text" placeholder="Repeat Password" name="psw-repeat" required>
-
+            <input type="Password" placeholder="Repeat Password" name="psw-repeat" required>
+            
             <div class="clearfix">
                 <button type="button"
             onclick="document.getElementById('id1').style.display='none'"
             class="canclelbth">Cancle</button>
                     <button type="submit" class="signupbtn">Sign Up</button>
             </div>
-         
+        </div>
        </from>
     
     
