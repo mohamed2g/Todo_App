@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const server = express();
+const path = require('path');
+const datahandler = require('./modules/datahandler');
+const encrypt = require('./modules/crypt');
 const pg = require('pg');
 
 server.use(bodyParser.json());
