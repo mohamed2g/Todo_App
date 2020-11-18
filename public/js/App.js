@@ -24,14 +24,14 @@ function addTodo(event){
 
      //Check-ikon
      const completedButton = document.createElement('button');
-     completedButton.innerHTML = '<i class = "fas fa-check"></i>';
+     completedButton.innerHTML = '<i><img src="img/icons8-checkmark-26.png" alt="Fullført symbol"></i>';
      completedButton.classList.add("complete-btn");
      todoDiv.appendChild(completedButton);
 
 
     //Søppel-ikon
     const trashButton = document.createElement('button');
-    trashButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    trashButton.innerHTML = '<i><img src="img/icons8-trash-can-24.png" alt="Delete symbol"></i>';
     trashButton.classList.add("trash-btn");
     todoDiv.appendChild(trashButton);
 
