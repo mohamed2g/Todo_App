@@ -31,7 +31,7 @@ function addTodo(event){
 
     //Søppel-ikon
     const trashButton = document.createElement('button');
-    trashButton.innerHTML = '<i><img src="img/icons8-trash-can-24.png" alt="Delete symbol"></i>';
+    trashButton.innerHTML = '<i><img src="img/icons8-trash-26.png" alt="Delete symbol"></i>';
     trashButton.classList.add("trash-btn");
     todoDiv.appendChild(trashButton);
 
