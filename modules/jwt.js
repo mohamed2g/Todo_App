@@ -47,9 +47,7 @@ function signToken(signString){
     .digest('base64'));
 }
 
-//Actually a base64url encoder
-// https://base64.guru/standards/base64url
-// https://medium.com/better-programming/a-practical-guide-for-jwt-authentication-using-nodejs-and-express-d48369e7e6d4
+
 function urlEncode(encodedString){
     return urlEncoded = encodedString.replace(/=/g, "")                      
     .replace(/\+/g, "-")                               
