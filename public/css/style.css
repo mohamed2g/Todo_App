@@ -49,19 +49,11 @@ div input, #container {
     text-align: center;
     margin: auto;
 }
-.welcome{ grid-area: header;}
-.welcome{ grid-area: side;}
-.loginForm{ grid-area: main;}
-.footer{ grid-area: main;}
-  .grid-container {
-    display: grid;
-    grid-template-areas:
-      'header header header header'
-      'side side main main'
-      'side side main main'
-      'footer footer footer footer';
-    grid-gap: 10px;
-    background-color: #2196F3;
+#container1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
     padding: 10px;
     text-align: center;
 }
