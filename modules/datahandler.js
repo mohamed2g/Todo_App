@@ -1,6 +1,6 @@
 const pg = require('pg');
 
-class Datahandler {
+class storageHandler {
 
     constructor(credentials){
         this.credentials = {
@@ -95,4 +95,4 @@ class Datahandler {
 
 }
 
-module.exports = Datahandler;
+module.exports = storageHandler;
