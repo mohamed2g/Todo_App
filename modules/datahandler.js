@@ -1,98 +1,78 @@
 const pg = require('pg');
+const dbcredentials = process.env.DATABASE_URL || require('../localenv').DATABASE_URL;
 
-class storageHandler {
-
-    constructor(credentials){
+class DataHandler {
+    constructor(credentials) {
         this.credentials = {
-            connectionString: credentials,
+            connectionString: credentials, //credentials er stringen fra Heroku som inneholder brukernavn og passord
             ssl: {
-                rejectUnauthorized: false
+                rejectUnauthorized: false //legges til for at vi kan jobbe lokalt 
             }
         };
     }
-
     
-    async getUser(username){
-        const client = new pg.Client(this.credentials);
+    
 
+
+    async getPassword(username) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
         try {
             await client.connect();
-
-            const query = {
-                text: 'SELECT * FROM users WHERE username = $1',
-                values: [username]
-            }
-
-            try {
-
-                let response = await client.query(query);
-                client.end();
-                return response.rows[0];
-
-            } catch (err){
-                console.log(`Failed to retrieve user: ${err}`);
-            }
-
-        } catch (err){
-            console.log(`Get user connection failed: ${err}`);
-        }
-
+            results = await client.query('select password from "public"."users" where username = $1;', [username]);
+            //results = results.rows[0].message;
+            return results.rows[0];  
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        } 
     }
 
-    async addUser(username, password){
+    async checkUser(username) {
         const client = new pg.Client(this.credentials);
-
+        let results = null;
         try {
             await client.connect();
+            results = await client.query('select * from "public"."users" where username = $1;', [username]);
+            //results = results.rows[0].message;
+            return results.rows.length !== 0; 
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
+        }
+    }
 
-            //Try to locate user in database
-            const query1 = {
-                text: 'SELECT * FROM users WHERE username = $1',
-                values: [username]
-            }
-
-            try{
-
-                let userFound = await client.query(query1);
-                if (userFound.rows.length === 0){
-                    //User does NOT exist
-                    //Add user to database
-                    const query2 = {
-                        text: 'INSERT INTO users (user_id, username, password) VALUES (DEFAULT, $1, $2);',
-                        values: [username, password]
-                    }
-
-                    try {
-
-                        let result = await client.query(query2);
-                        client.end();
-                        return {msg: 'User added.'};
-
-                    } catch (err){
-                        console.log(`Add user failed: ${err}`);
-                    }
-
-
-                } else {
-                    client.end();
-                    return {msg: 'User already exists'}
-                }
-                
-
-            } catch (err){
-                console.log(`Locating user failed: ${err}`);
-
-            }
-
-        } catch(err){
+    async insertUser(username, password) {
+        let userExists = await this.checkUser(username);
+        console.log(userExists); 
+        if (userExists) {
+            console.log(1);
+            return false; 
             
-            console.log(`User creation, connection error: ${err}`);
-        
+        }else{
+            console.log(2); 
+            const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('INSERT INTO "public"."users" ("username", "password") VALUES($1, $2) RETURNING *;', [username, password]);
+            //results = results.rows[0].message;
+            client.end();
+        } catch (err) {
+            client.end();
+            console.log(err);
+            results = err;
         }
 
+        return results;
+        }
         
     }
 
 }
 
-module.exports = storageHandler;
+module.exports = new DataHandler(dbcredentials); 

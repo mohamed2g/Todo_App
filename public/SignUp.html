@@ -17,35 +17,74 @@
 
             <p>Please fill in this form to create an account.</p>
  
-     <from class = "sign_form">
+     
         
         <div id="container">  
-            <label for="name"><b>Name</b></label>
-            <input type="text" placeholder="Enter Name" name="name" required>
-            <br>
-            <label for="email"><b>Email</b></label>
-            <input type="email" placeholder="Enter Email" name="email" required>
-            <br>
-            <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-            <br>
-            <label for="name"><b>Repeat Password</b></label>
-            <input type="Password" placeholder="Repeat Password" name="psw-repeat" required>
             
-            <div class="clearfix">
-                <button onclick="window.location.href='/index.html';" type="button"
-            onclick="document.getElementById('id1').style.display='none'"
-            class="canclelbth">Cancel</button>
-                    <button type="submit" class="signupbtn">Sign Up</button>
-            </div>
+            <label for="username"><b>Username</b></label>
+            <input type="username" placeholder="Enter Username" name="username" id = 'username' required>
+            <br>
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" id = 'password' name="psw" required>
+            <br>
+            
+            
+            
+                <button onclick="window.location.href='/index.html';" type="button" class="canclelbth">Cancel</button>
+                <button id="submit" class="signupbtn">Sign Up</button>
         </div>
         
-       </from>
-
+      
+       
        <div class="bottom">
         <span>By: Mohamed Ahmed Abdi, Steffen Abrahamsen, Frida Sandøy Kvale and Christina Olsen</span>
         </div>
+        <script>
+    const usernameInp = document.getElementById("username");
+    const pswInp = document.getElementById("password");
+    const createUser = document.getElementById("submit");
+
     
+    createUser.addEventListener('click', async function (evt) {
+         
+
+       // if(usernameInp.value.length < 4 && pswInp.value.length < 8){
+          //  alert("You need at least 8 characters"); 
+            //return
+       // }
+
+
+        let body = {
+            username: usernameInp.value,
+            password: pswInp.value
+        }
+
+        let cfg = {
+            method: "POST",
+            headers:{
+                "content-type":"application/json"
+            },
+            body: JSON.stringify(body)
+        }
+
+        
+       
+
+        let response = await fetch("/user", cfg); 
+        let data = await response.json(); 
+
+        if (data === "success!"){
+            location.href="index.html"; 
+        }
+        
+
+
+    }); 
+
+            </script>
     
 </body>
+
+
+
 </html>

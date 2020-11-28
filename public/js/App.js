@@ -23,8 +23,9 @@ function addTodo(event){
     saveLocalTodos(todoInput.value);
 
      //Check-ikon
-     const completedButton = document.createElement('button')
-     completedButton.innerHTML = '<i><img src="img/icons8-checkmark-26.png" alt="Fullført symbol"></i>';
+     const completedButton = document.createElement('input');
+     completedButton.setAttribute("type", "image");
+     completedButton.src="img/icons8-checkmark-26.png"
      completedButton.classList.add("complete-btn");
      todoDiv.appendChild(completedButton);
 
@@ -121,8 +122,10 @@ function getTodos(){
         todoDiv.appendChild(newTodo);
     
          //Check-ikon
-         const completedButton = document.createElement('button');
-         completedButton.innerHTML = '<i><img src="img/icons8-checkmark-26.png" alt="Fullført symbol"></i>';
+         const completedButton = document.createElement('input');
+         completedButton.setAttribute("type", "image");
+         completedButton.src="img/icons8-checkmark-26.png"
+         //completedButton.innerHTML = '<img src="img/icons8-checkmark-26.png" alt="Fullført symbol">';
          completedButton.classList.add("complete-btn");
          todoDiv.appendChild(completedButton);
     
