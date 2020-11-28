@@ -188,3 +188,9 @@ select {
     background: white;
     color: #ff6f47;
 }
+
+@media screen and (max-width: 1024px) {
+    #container1, form, #container {
+        flex-direction: column;
+    }
+}
