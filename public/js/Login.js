@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "/css/style.css">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello world1</h1>
-    <a href="login.html">login</a>
-    <a href="SignUp.html">Register</a>
-    <a href="Dashboard.html">Dashboard</a>
-    <p>this is a test</p>
-</body>
-<<<<<<< Updated upstream
-=======
-
-<script>
 let userLogin = document.getElementById("userLogin");
 let pswLogin = document.getElementById("pswLogin");
 let btnLogin = document.getElementById("btnLogin");
@@ -55,8 +36,3 @@ btnLogin.addEventListener('click', async function (evt) {
 
 
 });
-
-</script>
-
->>>>>>> Stashed changes
-</html>
