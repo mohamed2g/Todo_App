@@ -126,7 +126,7 @@ let response = await fetch(url, cfg);
 todoInput.value = "";
 }
 
-function getTodos(){
+async function getTodos(){
     let todos;
     if (sessionStorage.getItem('todos') === null){
         todos = [];
