@@ -1,60 +1,63 @@
-//https://jwt.io/
 
-const tokenSecret = require('../localenv').TOKEN_SECRET;
-const crypto = require('crypto');
 
-function generateToken(payload){
-    //Header
-    const header = {
-        'alg': 'HS256',
-        'typ': 'jwt'
-    }
+const crypto = require('crypto'); 
+let secret = process.env.TOKEN_SECRET || require('../localenv').TOKEN_SECRET;
 
-    const headerBUF = Buffer.from(JSON.stringify(header), 'utf-8');
-    const headerENC = urlEncode(headerBUF.toString('base64'));
+
+  function checkToken(token){
+      let [header, payload, sign] = token.split("."); 
+
+      let newSign = crypto.createHmac('sha256', secret)
+      .update(header + "." + payload, "utf-8")
+      .digest('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');     
+
+      if(newSign === sign){
+          return true; 
+      } else  {
+          return false; 
+      }
+  }
+
+  function generateToken(payload) {
     
-    //Payload
-    const payloadBUF = Buffer.from(JSON.stringify(payload), 'utf-8');
-    const payloadENC = urlEncode(payloadBUF.toString('base64'));
+    let header = {
+        "alg": "HS256",
+        "typ": "JWT"
+      }  
 
-    //Signature
-    const signString = headerENC+"."+payloadENC;
-
-    const sign = signToken(signString);
-
-    //Finished token
-    const token = headerENC+"."+payloadENC+"."+sign;
-    return token;
-}
-
-function validateToken(token){
-    //Step 1: Split token at .
-    let [header, payload, sign] = token.split('.');
-    
-    //Create signature
-    const signString = header+"."+payload;
-    const mySignature = signToken(signString);
-
-    //Check if mySignature matches the signature from the received token
-    return mySignature === sign;
-
-    
-}
-
-function signToken(signString){
-    return urlEncode(crypto.createHmac('sha256', tokenSecret)
-    .update(signString, 'utf-8')
-    .digest('base64'));
-}
+    let data = JSON.stringify(header);
+    let buff = Buffer.from(data, "utf-8");
+    let base64Header = buff.toString('base64');
+    let base64urlHeader = base64Header.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 
 
-function urlEncode(encodedString){
-    return urlEncoded = encodedString.replace(/=/g, "")                      
-    .replace(/\+/g, "-")                               
-    .replace(/\//g, "_");
-}
 
-module.exports = {
-    generateToken, 
-    validateToken
-};
+    data = JSON.stringify(payload);
+    buff = Buffer.from(data, "utf-8");
+    base64Payload = buff.toString('base64')
+    let base64urlPayload = base64Payload.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+  
+
+    let sign = crypto.createHmac('sha256', secret)
+                        .update(base64urlHeader + "." + base64urlPayload, "utf-8")
+                        .digest('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');     
+
+   let token = base64urlHeader + "." + base64urlPayload + "." + sign; 
+
+   return token;
+
+  }
+
+  function getPayload(token){
+      
+      let payloadString = token.split(".")[1];
+      let buff = Buffer.from(payloadString, "base64");
+      let payload = buff.toString('utf-8');
+
+      return payload;
+  }
+
+  
+
+  module.exports = {generateToken, checkToken, getPayload}
+

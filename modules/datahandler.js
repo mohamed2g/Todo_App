@@ -1,98 +1,105 @@
 const pg = require('pg');
+const dbcredentials = process.env.DATABASE_URL || require('../localenv').DATABASE_URL;
 
-class Datahandler {
-
-    constructor(credentials){
+class DataHandler {
+    constructor(credentials) {
         this.credentials = {
-            connectionString: credentials,
+            connectionString: credentials, 
             ssl: {
-                rejectUnauthorized: false
+                rejectUnauthorized: false 
             }
         };
     }
-
     
-    async getUser(username){
-        const client = new pg.Client(this.credentials);
+    
 
+
+    async getPassword(username) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
         try {
             await client.connect();
-
-            const query = {
-                text: 'SELECT * FROM users WHERE username = $1',
-                values: [username]
-            }
-
-            try {
-
-                let response = await client.query(query);
-                client.end();
-                return response.rows[0];
-
-            } catch (err){
-                console.log(`Failed to retrieve user: ${err}`);
-            }
-
-        } catch (err){
-            console.log(`Get user connection failed: ${err}`);
-        }
-
+            results = await client.query('select password from "public"."users" where username = $1;', [username]);
+           
+            return results.rows[0];  
+            client.end();
+        } catch (err) {
+            client.end();
+            
+            results = err;
+        } 
     }
 
-    async addUser(username, password){
+    async checkUser(username) {
         const client = new pg.Client(this.credentials);
-
+        let results = null;
         try {
             await client.connect();
-
-            //Try to locate user in database
-            const query1 = {
-                text: 'SELECT * FROM users WHERE username = $1',
-                values: [username]
-            }
-
-            try{
-
-                let userFound = await client.query(query1);
-                if (userFound.rows.length === 0){
-                    //User does NOT exist
-                    //Add user to database
-                    const query2 = {
-                        text: 'INSERT INTO users (user_id, username, password) VALUES (DEFAULT, $1, $2);',
-                        values: [username, password]
-                    }
-
-                    try {
-
-                        let result = await client.query(query2);
-                        client.end();
-                        return {msg: 'User added.'};
-
-                    } catch (err){
-                        console.log(`Add user failed: ${err}`);
-                    }
-
-
-                } else {
-                    client.end();
-                    return {msg: 'User already exists'}
-                }
-                
-
-            } catch (err){
-                console.log(`Locating user failed: ${err}`);
-
-            }
-
-        } catch(err){
+            results = await client.query('select * from "public"."users" where username = $1;', [username]);
+          
+            return results.rows.length !== 0; 
+            client.end();
+        } catch (err) {
+            client.end();
             
-            console.log(`User creation, connection error: ${err}`);
+            results = err;
+        }
+    }
+
+    async insertUser(username, password) {
+        let userExists = await this.checkUser(username);
         
+        if (userExists) {
+            
+            return false; 
+            
+        }else{
+             
+            const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('INSERT INTO "public"."users" ("username", "password") VALUES($1, $2) RETURNING *;', [username, password]);
+            client.end();
+        } catch (err) {
+            client.end();
+        
+            results = err;
         }
 
+        return results;
+        }
         
+    }
+
+    async addItem(data) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('insert into "public"."todo-list" (id, "task") values (default, $1) returning id', [data.task]);
+            client.end();
+            return results.rows[0].id;
+        } catch (err) {
+            client.end();
+            results = err;
+        }
+    }
+
+    async deleteItem(id) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('delete from "public"."todo-list" where id=$1', [id]);
+            client.end();
+            return results;
+        } catch (err) {
+            client.end();
+            results = err;
+        }
     }
 
 }
 
-module.exports = Datahandler;
+module.exports = new DataHandler(dbcredentials); 
