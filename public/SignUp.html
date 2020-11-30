@@ -39,49 +39,7 @@
        <div class="bottom">
         <span>By: Mohamed Ahmed Abdi, Steffen Abrahamsen, Frida Sandøy Kvale and Christina Olsen</span>
         </div>
-        <script>
-    const usernameInp = document.getElementById("username");
-    const pswInp = document.getElementById("password");
-    const createUser = document.getElementById("submit");
-
-    
-    createUser.addEventListener('click', async function (evt) {
-         
-
-       // if(usernameInp.value.length < 4 && pswInp.value.length < 8){
-          //  alert("You need at least 8 characters"); 
-            //return
-       // }
-
-
-        let body = {
-            username: usernameInp.value,
-            password: pswInp.value
-        }
-
-        let cfg = {
-            method: "POST",
-            headers:{
-                "content-type":"application/json"
-            },
-            body: JSON.stringify(body)
-        }
-
-        
-       
-
-        let response = await fetch("/user", cfg); 
-        let data = await response.json(); 
-
-        if (data === "success!"){
-            location.href="index.html"; 
-        }
-        
-
-
-    }); 
-
-            </script>
+        <script src = "js/Signup.js"></script> 
     
 </body>
 

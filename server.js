@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 
-// --
+ 
 
 const authenticator = async (req, res, next) => {
   if (!req.headers.authorization || req.headers.authorization.indexOf('Basic') === -1) {
@@ -29,11 +29,11 @@ const authenticator = async (req, res, next) => {
       req.login = true;
       req.username = username; 
   }
-  //req.user = user; 
+
   next();
 }
 
-// --
+
 async function authenticate(username, password) {
   let psw = crypto.createHmac('sha256', secret)
           .update(password)
@@ -79,19 +79,11 @@ app.post('/user', async function (req, res) {
                         .update(psw)
                         .digest('hex');                
   let result = await datahandler.insertUser(user, psw); 
-  console.log(result); 
   if (result){
     res.status(200).json("success!").end(); 
   }else {
     res.status(200).json("failed").end(); 
   }
-
-
-    
-    //const newuser = new user(req.body.username, req.body.password);
-    //await newuser.create();
-    //res.status(200).json(newuser).end();
-    //console.log(req.body);
 
 });
 
@@ -106,10 +98,10 @@ app.post("/addItem", async function (req, res){
 
     let payload = JSON.parse(getPayload(token));
     req.body.username = payload.username;
-    //console.log(req.body);
+
     let result = await datahandler.addItem(req.body); 
     res.status(200).json(result).end();
-    console.log(result); 
+
 
     
   }else{
@@ -129,7 +121,7 @@ app.delete("/deleteItem", async function (req, res){
 
     let payload = JSON.parse(getPayload(token));
     req.body.username = payload.username;
-    //console.log(req.body);
+
     let result = await datahandler.deleteItem(req.body.id); 
     if (result){
       res.status(200).end();
@@ -137,7 +129,7 @@ app.delete("/deleteItem", async function (req, res){
       res.status(500).end();
     }
     
-    console.log(result); 
+  
 
     
   }else{
@@ -147,25 +139,6 @@ app.delete("/deleteItem", async function (req, res){
 
 });
 
-app.get("/myLists", async function(req,res){
-  const token = req.headers.authorization.split(' ')[1]; 
-
-  let access = checkToken(token);
-
-  if(access){
-
-    let payload = JSON.parse(getPayload(token));
-    let username = payload.username;
-    //console.log(req.body);
-    let result = await datahandler.viewMyLists(username); 
-    res.status(200).json(result).end();
-    console.log(result); 
-
-    
-  }else{
-    console.log("denied");
-  }
-})
 
 
 const PORT = process.env.PORT || 8080; 

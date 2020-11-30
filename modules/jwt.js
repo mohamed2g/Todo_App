@@ -3,11 +3,6 @@
 const crypto = require('crypto'); 
 let secret = process.env.TOKEN_SECRET || require('../localenv').TOKEN_SECRET;
 
-/*let payload = {
-    "sub": "1234567890",
-    "name": "John Doe",
-    "admin": true
-  }*/
 
   function checkToken(token){
       let [header, payload, sign] = token.split("."); 

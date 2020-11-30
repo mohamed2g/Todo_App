@@ -4,9 +4,9 @@ const dbcredentials = process.env.DATABASE_URL || require('../localenv').DATABAS
 class DataHandler {
     constructor(credentials) {
         this.credentials = {
-            connectionString: credentials, //credentials er stringen fra Heroku som inneholder brukernavn og passord
+            connectionString: credentials, 
             ssl: {
-                rejectUnauthorized: false //legges til for at vi kan jobbe lokalt 
+                rejectUnauthorized: false 
             }
         };
     }
@@ -20,12 +20,12 @@ class DataHandler {
         try {
             await client.connect();
             results = await client.query('select password from "public"."users" where username = $1;', [username]);
-            //results = results.rows[0].message;
+           
             return results.rows[0];  
             client.end();
         } catch (err) {
             client.end();
-            console.log(err);
+            
             results = err;
         } 
     }
@@ -36,41 +36,68 @@ class DataHandler {
         try {
             await client.connect();
             results = await client.query('select * from "public"."users" where username = $1;', [username]);
-            //results = results.rows[0].message;
+          
             return results.rows.length !== 0; 
             client.end();
         } catch (err) {
             client.end();
-            console.log(err);
+            
             results = err;
         }
     }
 
     async insertUser(username, password) {
         let userExists = await this.checkUser(username);
-        console.log(userExists); 
+        
         if (userExists) {
-            console.log(1);
+            
             return false; 
             
         }else{
-            console.log(2); 
+             
             const client = new pg.Client(this.credentials);
         let results = null;
         try {
             await client.connect();
             results = await client.query('INSERT INTO "public"."users" ("username", "password") VALUES($1, $2) RETURNING *;', [username, password]);
-            //results = results.rows[0].message;
             client.end();
         } catch (err) {
             client.end();
-            console.log(err);
+        
             results = err;
         }
 
         return results;
         }
         
+    }
+
+    async addItem(data) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('insert into "public"."todo-list" (id, "task") values (default, $1) returning id', [data.task]);
+            client.end();
+            return results.rows[0].id;
+        } catch (err) {
+            client.end();
+            results = err;
+        }
+    }
+
+    async deleteItem(id) {
+        const client = new pg.Client(this.credentials);
+        let results = null;
+        try {
+            await client.connect();
+            results = await client.query('delete from "public"."todo-list" where id=$1', [id]);
+            client.end();
+            return results;
+        } catch (err) {
+            client.end();
+            results = err;
+        }
     }
 
 }
