@@ -56,6 +56,6 @@ let secret = process.env.TOKEN_SECRET || require('../localenv').TOKEN_SECRET;
       return payload;
   }
 
-  //generateToken(payload); 
+  
 
   module.exports = {generateToken, checkToken, getPayload}
