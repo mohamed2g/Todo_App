@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/9a206dcb8a.js" crossorigin="anonymous"></script>
     <link rel = "stylesheet" href = "/css/style.css">
 
 <title>KINGFISHERS LIST</title>
@@ -12,15 +11,14 @@
 <body>
 
     <header>
-        <h1> Kingfisher Emu's TO DO list </h1>
+        <h1> Your list </h1>
     </header>
 
-    <p> By: Frida Sandøy Kvale </p>
     
     <form>
         <input type = "text" class = "todo-input">
-        <button class = "todo-button" type = "submit">
-            <i class = "fas fa-plus-square"></i>
+        <button class = "todo-button" type = "submit" id="btnTask">
+            <i><img src="img/icons8-plus-26.png" alt="Pluss symbol"></i>
         </button>
         <div class = "select">
             <select name = "todos" class = "filter-todo">
@@ -34,9 +32,11 @@
         <ul class = "todo-list"></ul>
     </div>
 
-    <script src = "/js/app.js"></script>
+<script src = "/js/app.js"></script> 
 
-    
+    <div class="bottom">
+        <span>By: Mohamed Ahmed Abdi, Steffen Abrahamsen, Frida Sandøy Kvale and Christina Olsen</span>
+        </div>
     
 </body>
 </html>

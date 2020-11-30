@@ -8,50 +8,54 @@ todoButton.addEventListener ('click', addTodo);
 todoList.addEventListener ('click', deleteCheck);
 filterOption.addEventListener('click', filterTodo);
 
-function addTodo(event){
+async function addTodo(event){
     event.preventDefault();
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
 
-    //LI
+    
     const newTodo = document.createElement('li');
     newTodo.innerText = todoInput.value;
-    newTodo.classList.add('todo-item');
+    newTodo.classList.add('todoItem');
     todoDiv.appendChild(newTodo);
 
-    //LEGG TIL LISTE I LOKALT LAGER PÅ PCN
+    
     saveLocalTodos(todoInput.value);
 
-     //Check-ikon
-     const completedButton = document.createElement('button');
-     completedButton.innerHTML = '<i class = "fas fa-check"></i>';
+     
+     const completedButton = document.createElement('input');
+     completedButton.setAttribute("type", "image");
+     completedButton.src="img/icons8-checkmark-26.png"
      completedButton.classList.add("complete-btn");
      todoDiv.appendChild(completedButton);
 
 
-    //Søppel-ikon
-    const trashButton = document.createElement('button');
-    trashButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    
+    const trashButton = document.createElement('input');
+    trashButton.setAttribute("type", "image");
+    trashButton.src= "img/icons8-trash-26.png";
     trashButton.classList.add("trash-btn");
     todoDiv.appendChild(trashButton);
 
 
-    //Legg til i liste
+   
     todoList.appendChild(todoDiv);
     
-    //Fjerne input verdi
-    todoInput.value = "";
+    
+    
 
+
+todoInput.value = "";
 }
 
-function deleteCheck(e){
+async function deleteCheck(e){
     const item = e.target;
     
-    //Fjerne oppgave
+    
     if (item.classList[0] === "trash-btn") {
         const todo = item.parentElement;
 
-        //Animasjon
+        
         todo.classList.add("fall");
         removeLocalTodos(todo);
         todo.addEventListener("transitionend", function(){
@@ -63,6 +67,7 @@ function deleteCheck(e){
         const todo = item.parentElement;
         todo.classList.toggle("completed");
     }
+    
 }
 
 function filterTodo(e){
@@ -90,64 +95,103 @@ function filterTodo(e){
     });
 }
 
-function saveLocalTodos(todo){
+async function saveLocalTodos(todo){
     let todos;
-    if (localStorage.getItem('todos') === null){
+    if (sessionStorage.getItem('todos') === null){
         todos = [];
     } else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        todos = JSON.parse(sessionStorage.getItem('todos'));
     }
 
     todos.push(todo);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    sessionStorage.setItem('todos', JSON.stringify(todos));
+    let credentials = "Bearer " + sessionStorage.getItem("token");
+    
+const url = "/addItem";
+body= {task:todoInput.value};
+
+const headers = {
+    "content-type": "application/json",
+    "authorization": credentials
+}
+
+const cfg = {
+    method: "post",
+    body: JSON.stringify(body),
+    headers: headers
+}
+
+let response = await fetch(url, cfg);
+
+todoInput.value = "";
 }
 
 function getTodos(){
     let todos;
-    if (localStorage.getItem('todos') === null){
+    if (sessionStorage.getItem('todos') === null){
         todos = [];
     } else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        todos = JSON.parse(sessionStorage.getItem('todos'));
     }
 
     todos.forEach(function(todo){
         const todoDiv = document.createElement("div");
         todoDiv.classList.add("todo");
     
-        //LI
+        
         const newTodo = document.createElement('li');
         newTodo.innerText = todo;
-        newTodo.classList.add('todo-item');
+        newTodo.classList.add('todoItem');
         todoDiv.appendChild(newTodo);
     
-         //Check-ikon
-         const completedButton = document.createElement('button');
-         completedButton.innerHTML = '<i class = "fas fa-check"></i>';
+         
+         const completedButton = document.createElement('input');
+         completedButton.setAttribute("type", "image");
+         completedButton.src="img/icons8-checkmark-26.png"
          completedButton.classList.add("complete-btn");
          todoDiv.appendChild(completedButton);
     
     
-        //Søppel-ikon
-        const trashButton = document.createElement('button');
-        trashButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        
+        const trashButton = document.createElement('input');
+        trashButton.setAttribute("type", "image");
+        trashButton.src= "img/icons8-trash-26.png";
         trashButton.classList.add("trash-btn");
         todoDiv.appendChild(trashButton);
     
     
-        //Legg til i liste
+        
         todoList.appendChild(todoDiv);
     });
 }
 
-function removeLocalTodos(todo){
+async function removeLocalTodos(todo){
     let todos;
-    if (localStorage.getItem('todos') === null){
+    if (sessionStorage.getItem('todos') === null){
         todos = [];
     } else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        todos = JSON.parse(sessionStorage.getItem('todos'));
     }
     const todoIndex = todo.children[0].innerText;
     todos.splice(todos.indexOf(todoIndex), 1);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    sessionStorage.setItem('todos', JSON.stringify(todos));
+
+
+    let credentials = "Bearer " + sessionStorage.getItem("token");
+    const url = "/deleteItem";
+    body= {id:todos.indexOf(todos).value};
+    
+    const headers = {
+        "content-type": "application/json",
+        "authorization": credentials
+    }
+
+    const cfg = {
+        method: "DELETE",
+        body: JSON.stringify(body),
+        headers: headers
+    }
+
+    let response = await fetch(url, cfg);
 }
 

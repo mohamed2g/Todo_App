@@ -3,18 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href = "/css/style.css">
-    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Login</title>
 </head>
 <body>
-    <h1>Hello world1</h1>
-    <a href="login.html">login</a>
-    <a href="SignUp.html">Register</a>
-    <a href="Dashboard.html">Dashboard</a>
-    <p>this is a test</p>
+<header>
+    
+</header>
+    <div id="container1">
+
+        <div id="welcome">
+            <p id= "greetings">WELCOME 
+            <br>
+            TO
+            <br>
+            KINGFISHER EMU'S
+            <br>
+            TO DO-LIST</p>
+            <br>
+            <p>LOG IN OR SIGN UP TO GET STARTED ON YOUR LIST!</p> 
+        </div>
+
+    <div id="start">
+        <h1>Login</h1>
+        <label for="username">Username: </label>
+        <input type="text" id="userLogin">
+        <br>
+        <label for="password">PASSWORD: </label>
+        <input type="password" id="pswLogin">
+
+        <br>
+        <button id="btnLogin">Login</button>
+        <button onclick="window.location.href='/SignUp.html';" id ="signup" > Sign up</button>
+    </div>
+</div>
+        
+<div class="bottom">
+    <span>By: Mohamed Ahmed Abdi, Steffen Fagervoll Abrahamsen, Frida Sandøy Kvale and Christina Olsen</span>
+    </div>
+
+
+
 </body>
-<<<<<<< Updated upstream
-=======
+
 
 <script>
 let userLogin = document.getElementById("userLogin");
@@ -58,5 +90,5 @@ btnLogin.addEventListener('click', async function (evt) {
 
 </script>
 
->>>>>>> Stashed changes
+
 </html>
