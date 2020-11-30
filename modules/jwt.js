@@ -31,6 +31,7 @@ let secret = process.env.TOKEN_SECRET || require('../localenv').TOKEN_SECRET;
     let base64urlHeader = base64Header.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 
 
+
     data = JSON.stringify(payload);
     buff = Buffer.from(data, "utf-8");
     base64Payload = buff.toString('base64')
@@ -59,3 +60,4 @@ let secret = process.env.TOKEN_SECRET || require('../localenv').TOKEN_SECRET;
   
 
   module.exports = {generateToken, checkToken, getPayload}
+
